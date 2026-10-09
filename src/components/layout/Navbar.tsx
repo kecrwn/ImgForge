@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Sun, Moon, Monitor, Menu, X, Globe, ChevronDown, FlaskConical, FileImage, FileText, Settings, Grid, History } from 'lucide-react';
+import { Search, Sun, Moon, Monitor, Menu, X, Globe, ChevronDown, Flame, FileImage, FileText, Settings, Grid, History } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { HistoryDrawer } from '../common/HistoryDrawer';
 
@@ -51,11 +51,11 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-primary-600 to-indigo-electric text-white shadow-lg shadow-primary-700/20 group-hover:scale-105 transition-transform">
-              <FlaskConical className="w-6 h-6" />
+            <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 text-white shadow-[0_0_15px_rgba(139,92,246,0.5)] group-hover:scale-105 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-all duration-300">
+              <Flame className="w-6 h-6" />
             </div>
             <span className="text-xl font-heading font-bold tracking-tight text-slate-900 dark:text-white">
-              Img<span className="text-primary-600 dark:text-primary-400">Lab</span>
+              Img<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Forge</span>
             </span>
           </Link>
 
