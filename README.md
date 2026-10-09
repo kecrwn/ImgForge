@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.icons8.com/?size=512&id=v9mY0tq188W5&format=png" alt="ImgForge Logo" width="120" />
+  <img src="public/favicon.jpg" alt="ImgForge Logo" width="120" style="border-radius: 20px" />
   <h1>ImgForge 🚀</h1>
   <p><b>The fastest, private web-first image toolkit for modern creators.</b></p>
   <p>
