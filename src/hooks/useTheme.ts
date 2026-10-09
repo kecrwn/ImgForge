@@ -11,7 +11,7 @@ interface ThemeState {
 
 export function useTheme() {
   const [theme, setThemeState] = useState<ThemeState>(() => {
-    const saved = localStorage.getItem('imglab-theme');
+    const saved = localStorage.getItem('imgforge-theme');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -42,7 +42,7 @@ export function useTheme() {
       document.documentElement.classList.remove('dark');
     }
 
-    localStorage.setItem('imglab-theme', JSON.stringify({ mode: theme.mode, accent: theme.accent }));
+    localStorage.setItem('imgforge-theme', JSON.stringify({ mode: theme.mode, accent: theme.accent }));
   }, [theme.mode, theme.accent, getSystemTheme]);
 
   useEffect(() => {

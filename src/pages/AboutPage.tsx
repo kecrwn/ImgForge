@@ -36,15 +36,15 @@ export default function AboutPage() {
       className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 pt-24"
     >
       <Helmet>
-        <title>About Us - ImgLab</title>
-        <meta name="description" content="Learn about ImgLab's mission to provide free, fast, and private image processing tools for everyone." />
+        <title>About Us - ImgForge</title>
+        <meta name="description" content="Learn about ImgForge's mission to provide free, fast, and private image processing tools for everyone." />
       </Helmet>
 
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Hero */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-slate-900 dark:text-white mb-6">
-            About ImgLab
+            About ImgForge
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 font-body max-w-2xl mx-auto">
             We're on a mission to make professional-grade image editing accessible, fast, and secure for everyone.
@@ -56,7 +56,7 @@ export default function AboutPage() {
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <h2 className="text-2xl font-heading font-bold mb-4">Our Story</h2>
             <p className="mb-4 text-slate-600 dark:text-slate-400">
-              We built ImgLab because image editing shouldn't require expensive software, complex installations, or uploading your private files to unknown servers. 
+              We built ImgForge because image editing shouldn't require expensive software, complex installations, or uploading your private files to unknown servers. 
             </p>
             <p className="mb-4 text-slate-600 dark:text-slate-400">
               Too often, simple tasks like resizing a photo, compressing an image for a website, or converting between formats require navigating ad-filled websites that force you to create an account or stamp watermarks on your work. We thought there had to be a better way.
@@ -105,7 +105,7 @@ export default function AboutPage() {
             Ready to enhance your images?
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-xl mx-auto">
-            Join thousands of users who trust ImgLab for their daily image processing needs. No signup required.
+            Join thousands of users who trust ImgForge for their daily image processing needs. No signup required.
           </p>
           <Link 
             to="/tools" 

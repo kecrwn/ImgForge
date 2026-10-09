@@ -1,8 +1,8 @@
-# ImgLab 🚀
+# ImgForge 🚀
 
 **The fastest, private web-first image toolkit for modern creators.**
 
-ImgLab is an all-in-one, 100% client-side image processing toolkit featuring over 150+ free tools. Everything runs entirely within your browser using open-source libraries—your files never leave your device.
+ImgForge is an all-in-one, 100% client-side image processing toolkit featuring over 150+ free tools. Everything runs entirely within your browser using open-source libraries—your files never leave your device.
 
 ## ✨ Features
 

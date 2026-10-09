@@ -14,7 +14,7 @@ export function useFileProcessor(tool: ToolConfig) {
     const defaults: Record<string, any> = {};
     tool.options?.forEach(opt => { defaults[opt.id] = opt.defaultValue; });
     try {
-      const saved = localStorage.getItem(`imglab-options-${tool.id}`);
+      const saved = localStorage.getItem(`imgforge-options-${tool.id}`);
       if (saved) return { ...defaults, ...JSON.parse(saved) };
     } catch {}
     return defaults;
@@ -47,7 +47,7 @@ export function useFileProcessor(tool: ToolConfig) {
     setProgress(0);
     setError(null);
     
-    localStorage.setItem(`imglab-options-${tool.id}`, JSON.stringify(options));
+    localStorage.setItem(`imgforge-options-${tool.id}`, JSON.stringify(options));
 
     try {
       const processor = await loadProcessor(tool.processor);
@@ -142,5 +142,5 @@ async function loadProcessor(type: string) {
 function generateDownloadName(originalName: string, tool: ToolConfig): string {
   const ext = originalName.split('.').pop() || 'jpg';
   const base = originalName.replace(/\.[^.]+$/, '');
-  return `${base}-imglab-${tool.slug}.${ext}`;
+  return `${base}-imgforge-${tool.slug}.${ext}`;
 }

@@ -13,8 +13,8 @@ export default function PrivacyPage() {
       className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 pt-24"
     >
       <Helmet>
-        <title>Privacy Policy - ImgLab</title>
-        <meta name="description" content="Learn how ImgLab protects your privacy and handles your data." />
+        <title>Privacy Policy - ImgForge</title>
+        <meta name="description" content="Learn how ImgForge protects your privacy and handles your data." />
       </Helmet>
 
       <div className="container mx-auto px-4 max-w-3xl">
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
 
           <div className="prose prose-slate dark:prose-invert max-w-none font-body">
             <p className="lead text-lg text-slate-700 dark:text-slate-300 mb-8">
-              At ImgLab, your privacy is our priority. We are committed to protecting your personal information and your right to privacy. This policy explains what information we collect, how we use it, and what rights you have.
+              At ImgForge, your privacy is our priority. We are committed to protecting your personal information and your right to privacy. This policy explains what information we collect, how we use it, and what rights you have.
             </p>
 
             <section className="mb-8">
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-2xl font-heading font-bold mb-4 text-slate-900 dark:text-white">7. Contact Us</h2>
               <p>
-                If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at <a href="mailto:privacy@imglab.com" className="text-primary hover:underline">privacy@imglab.com</a> or via our <a href="/contact" className="text-primary hover:underline">Contact Page</a>.
+                If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at <a href="mailto:privacy@imgforge.com" className="text-primary hover:underline">privacy@imgforge.com</a> or via our <a href="/contact" className="text-primary hover:underline">Contact Page</a>.
               </p>
             </section>
           </div>

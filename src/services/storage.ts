@@ -13,7 +13,7 @@ export interface StorageItem {
   timestamp: number;
 }
 
-interface ImgLabDB extends DBSchema {
+interface ImgForgeDB extends DBSchema {
   files: {
     key: string;
     value: StorageItem;
@@ -39,17 +39,17 @@ interface ImgLabDB extends DBSchema {
   };
 }
 
-const DB_NAME = 'imglab-storage';
+const DB_NAME = 'imgforge-storage';
 const DB_VERSION = 1;
 const MAX_ITEMS = 50;
 const MAX_STORAGE_BYTES = 200 * 1024 * 1024; // 200MB
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
-let dbPromise: Promise<IDBPDatabase<ImgLabDB>> | null = null;
+let dbPromise: Promise<IDBPDatabase<ImgForgeDB>> | null = null;
 
 export async function getDB() {
   if (!dbPromise) {
-    dbPromise = openDB<ImgLabDB>(DB_NAME, DB_VERSION, {
+    dbPromise = openDB<ImgForgeDB>(DB_NAME, DB_VERSION, {
       upgrade(db, oldVersion) {
         if (oldVersion < 1) {
           const store = db.createObjectStore('files', { keyPath: 'id' });

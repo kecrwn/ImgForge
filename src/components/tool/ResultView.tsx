@@ -41,7 +41,7 @@ export const ResultView: React.FC<ResultViewProps> = ({ results, onReset }) => {
     });
     
     const content = await zip.generateAsync({ type: 'blob' });
-    saveAs(content, 'imglab-processed.zip');
+    saveAs(content, 'imgforge-processed.zip');
   };
 
   return (

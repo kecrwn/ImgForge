@@ -125,7 +125,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} ImgLab. All rights reserved.
+            © {new Date().getFullYear()} ImgForge. All rights reserved.
           </p>
           <p className="text-slate-500 text-sm flex items-center gap-1">
             Made with <span className="text-rose-500">❤️</span> for creators worldwide

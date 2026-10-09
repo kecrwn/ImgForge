@@ -29,7 +29,7 @@ export default function NotFoundPage() {
       className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 pt-24"
     >
       <Helmet>
-        <title>Page Not Found - ImgLab</title>
+        <title>Page Not Found - ImgForge</title>
         <meta name="robots" content="noindex" />
       </Helmet>
 

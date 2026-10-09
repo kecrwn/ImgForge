@@ -14,7 +14,7 @@ export default function HomePage() {
 
   const faqItems = [
     {
-      question: "Is ImgLab really free to use?",
+      question: "Is ImgForge really free to use?",
       answer: "Yes, 100% free. We don't have premium tiers, watermarks, or hidden costs. We believe basic image processing should be accessible to everyone."
     },
     {
@@ -72,7 +72,7 @@ export default function HomePage() {
       className="min-h-screen bg-white dark:bg-slate-950"
     >
       <Helmet>
-        <title>ImgLab | Premium Free Online Image Tools</title>
+        <title>ImgForge | Premium Free Online Image Tools</title>
         <meta name="description" content="The ultimate all-in-one image toolkit. Resize, compress, convert, and edit images for free. Privacy-first, browser-based processing." />
       </Helmet>
 
@@ -120,7 +120,7 @@ export default function HomePage() {
               Frequently Asked Questions
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 font-body">
-              Everything you need to know about ImgLab.
+              Everything you need to know about ImgForge.
             </p>
           </div>
           

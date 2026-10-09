@@ -62,7 +62,7 @@ export default function AllToolsPage() {
       className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20"
     >
       <Helmet>
-        <title>All Image Tools - ImgLab</title>
+        <title>All Image Tools - ImgForge</title>
         <meta name="description" content="Browse our complete collection of free online image tools. Resize, compress, convert, and edit images easily in your browser." />
       </Helmet>
 

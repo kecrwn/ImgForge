@@ -19,7 +19,7 @@ export const TrustSection: React.FC = () => {
               Your Privacy,<br/>Our Priority
             </h2>
             <p className="text-primary-light dark:text-slate-300 font-body text-lg max-w-md mx-auto lg:mx-0">
-              We built ImgLab with security as a core principle. Your sensitive images should never be exposed.
+              We built ImgForge with security as a core principle. Your sensitive images should never be exposed.
             </p>
           </div>
 

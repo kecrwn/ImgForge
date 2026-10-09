@@ -37,7 +37,7 @@ export default function ToolPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
       <Helmet>
-        <title>{tool.name} - ImgLab</title>
+        <title>{tool.name} - ImgForge</title>
         <meta name="description" content={tool.description} />
       </Helmet>
 

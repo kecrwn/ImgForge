@@ -50,7 +50,7 @@ export async function downloadAllAsZip(files: { blob: Blob; name: string }[]): P
     const zip = new JSZip();
     files.forEach(f => zip.file(f.name, f.blob));
     const content = await zip.generateAsync({ type: 'blob' });
-    await downloadBlob(content, 'imglab-batch.zip');
+    await downloadBlob(content, 'imgforge-batch.zip');
   } catch (error) {
     console.error('Error creating zip file:', error);
     throw error;

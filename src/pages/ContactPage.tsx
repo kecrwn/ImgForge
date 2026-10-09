@@ -38,8 +38,8 @@ export default function ContactPage() {
       className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 pt-24"
     >
       <Helmet>
-        <title>Contact Us - ImgLab</title>
-        <meta name="description" content="Get in touch with the ImgLab team for support, feedback, or inquiries." />
+        <title>Contact Us - ImgForge</title>
+        <meta name="description" content="Get in touch with the ImgForge team for support, feedback, or inquiries." />
       </Helmet>
 
       <div className="container mx-auto px-4 max-w-6xl">
@@ -162,8 +162,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 dark:text-white mb-1">Email Us</h3>
-                  <a href="mailto:support@imglab.com" className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
-                    support@imglab.com
+                  <a href="mailto:support@imgforge.com" className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+                    support@imgforge.com
                   </a>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function ContactPage() {
             <div className="bg-primary rounded-3xl p-8 text-white shadow-sm">
               <h3 className="font-heading font-bold text-xl mb-2">Need a custom tool?</h3>
               <p className="text-primary-light mb-4 text-sm">
-                If there's a specific image processing feature you'd love to see on ImgLab, let us know! We're constantly adding new tools based on user feedback.
+                If there's a specific image processing feature you'd love to see on ImgForge, let us know! We're constantly adding new tools based on user feedback.
               </p>
               <button 
                 onClick={() => {
