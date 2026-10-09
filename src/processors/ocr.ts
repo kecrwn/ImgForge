@@ -7,7 +7,7 @@ export async function extractText(
 ): Promise<string> {
   // Use createWorker dynamically
   const worker = await createWorker(language, 1, {
-    logger: m => {
+    logger: (m: any) => {
       if (m.status === 'recognizing text' && onProgress) {
         onProgress(Math.round(m.progress * 100));
       }

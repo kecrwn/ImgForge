@@ -1,3 +1,4 @@
+// @ts-ignore
 import heic2any from 'heic2any';
 
 export async function convertImage(

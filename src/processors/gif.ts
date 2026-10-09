@@ -1,3 +1,4 @@
+// @ts-ignore
 import GIF from 'gif.js';
 
 export async function createGif(

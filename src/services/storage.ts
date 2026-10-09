@@ -50,7 +50,7 @@ let dbPromise: Promise<IDBPDatabase<ImgForgeDB>> | null = null;
 export async function getDB() {
   if (!dbPromise) {
     dbPromise = openDB<ImgForgeDB>(DB_NAME, DB_VERSION, {
-      upgrade(db, oldVersion) {
+      upgrade(db: any, oldVersion: number) {
         if (oldVersion < 1) {
           const store = db.createObjectStore('files', { keyPath: 'id' });
           store.createIndex('by-timestamp', 'timestamp');
@@ -164,7 +164,7 @@ export async function cleanupOldFiles(): Promise<void> {
     }
     
     // Recalculate properly: sort newest first to keep them, mark others for deletion
-    items.sort((a, b) => b.timestamp - a.timestamp);
+    items.sort((a: any, b: any) => b.timestamp - a.timestamp);
     let currentSize = 0;
     let keptCount = 0;
 
@@ -228,8 +228,8 @@ export async function getSession(toolId: string) {
     const session = await db.get('sessions', toolId);
     if (!session) return null;
     
-    const files = session.files.map(f => new File([f.blob], f.name, { type: f.type, lastModified: f.lastModified }));
-    const results = session.results.map((r, i) => ({
+    const files = session.files.map((f: any) => new File([f.blob], f.name, { type: f.type, lastModified: f.lastModified }));
+    const results = session.results.map((r: any, i: number) => ({
       ...r,
       originalFile: files[i],
     }));
