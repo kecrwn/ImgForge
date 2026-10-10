@@ -75,6 +75,7 @@ export interface ToolConfig {
   processor: ProcessorType;
   processorConfig?: Record<string, any>;
   comingSoon?: boolean;
+  tags?: string[];
 }
 
 export interface Category {

@@ -64,7 +64,7 @@ export function useFileProcessor(tool: ToolConfig) {
           processedBlob: result,
           originalSize: file.size,
           processedSize: result.size,
-          downloadName: generateDownloadName(file.name, tool),
+          downloadName: generateDownloadName(file.name, tool, result.type),
           format: options.format,
         });
       }
@@ -139,8 +139,17 @@ async function loadProcessor(type: string) {
   }
 }
 
-function generateDownloadName(originalName: string, tool: ToolConfig): string {
-  const ext = originalName.split('.').pop() || 'jpg';
+function generateDownloadName(originalName: string, tool: ToolConfig, mimeType?: string): string {
+  let ext = originalName.split('.').pop() || 'jpg';
+  
+  if (mimeType) {
+    const mimeExt = mimeType.split('/')[1];
+    if (mimeExt) {
+      ext = mimeExt === 'jpeg' ? 'jpg' : mimeExt;
+    }
+    if (mimeType === 'image/x-icon') ext = 'ico';
+  }
+
   const base = originalName.replace(/\.[^.]+$/, '');
   return `${base}-imgforge-${tool.slug}.${ext}`;
 }

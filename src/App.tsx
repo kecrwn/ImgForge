@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import CommandPalette from './components/CommandPalette';
 import { useTheme } from './hooks/useTheme';
 
 // Lazy loaded pages
@@ -13,6 +14,8 @@ const TermsPage = React.lazy(() => import('./pages/TermsPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const ToolPage = React.lazy(() => import('./pages/ToolPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
+const CategoryPage = React.lazy(() => import('./pages/CategoryPage'));
+const SelfTest = React.lazy(() => import('./pages/SelfTest'));
 
 // Scroll to top component
 const ScrollToTop = () => {
@@ -48,13 +51,17 @@ function App() {
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/:slug" element={<ToolPage />} />
+            <Route path="/tool/:slug" element={<ToolPage />} />
+            <Route path="/category/:id" element={<CategoryPage />} />
+            <Route path="/:category" element={<CategoryPage />} />
+            <Route path="/_selftest" element={<SelfTest />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </main>
 
       <Footer />
+      <CommandPalette />
     </div>
   );
 }

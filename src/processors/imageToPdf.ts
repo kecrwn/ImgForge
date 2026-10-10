@@ -30,6 +30,8 @@ export async function imageToPdf(
   canvas.width = img.width;
   canvas.height = img.height;
   const ctx = canvas.getContext('2d')!;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(img, 0, 0);
   
   const imgData = canvas.toDataURL('image/jpeg', 1.0);

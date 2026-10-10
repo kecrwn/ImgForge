@@ -59,7 +59,7 @@ export const Hero: React.FC = () => {
                 placeholder="Search tools... (e.g. compress)"
                 readOnly
                 onClick={() => {
-                  window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
+                  window.dispatchEvent(new Event('open-command-palette'));
                 }}
               />
               <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">

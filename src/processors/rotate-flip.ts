@@ -16,11 +16,16 @@ export async function rotateImage(
   const cos = Math.abs(Math.cos(rad));
   const sin = Math.abs(Math.sin(rad));
   
-  const newWidth = Math.floor(w * cos + h * sin);
-  const newHeight = Math.floor(w * sin + h * cos);
+  const newWidth = Math.ceil(w * cos + h * sin);
+  const newHeight = Math.ceil(w * sin + h * cos);
 
   canvas.width = newWidth;
   canvas.height = newHeight;
+
+  if (file.type === 'image/jpeg') {
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate(rad);

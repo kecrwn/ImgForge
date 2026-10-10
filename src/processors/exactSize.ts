@@ -4,13 +4,23 @@ export async function compressToExactSize(
   options?: {
     format?: string;
     increaseMode?: 'padding' | 'high-quality';
+    fillAlpha?: boolean;
   },
   onProgress?: (progress: number) => void
 ): Promise<Blob> {
   const targetBytes = targetKB * 1024;
-  const minBytes = targetBytes * 0.9;
-  const format = options?.format || file.type || 'image/jpeg';
+  let format = options?.format || file.type || 'image/jpeg';
+  
+  // PNG ignores quality in canvas.toBlob. If target is smaller than current, force JPEG/WEBP
+  if (format === 'image/png' && file.size > targetBytes) {
+    format = 'image/jpeg'; // Default to jpeg for size reduction
+  }
   const mimeType = format.includes('/') ? format : `image/${format}`;
+
+  if (file.size <= targetBytes && file.size >= targetBytes * 0.9 && file.type === mimeType) {
+    onProgress?.(100);
+    return file as Blob;
+  }
 
   let img: ImageBitmap;
   try {
@@ -19,100 +29,111 @@ export async function compressToExactSize(
     throw new Error('Failed to decode image for compression.');
   }
 
-  if (file.size >= minBytes && file.size <= targetBytes && file.type === mimeType) {
-    onProgress?.(100);
-    return file as Blob;
-  }
-
-  if (file.size < minBytes && options?.increaseMode) {
+  if (file.size < targetBytes && options?.increaseMode) {
     return await increaseImageSize(file, img, targetBytes, mimeType, options.increaseMode, onProgress);
   }
 
   let w = img.width;
   let h = img.height;
   
-  let scale = 1.0;
-  let result: Blob | null = null;
-  
   let bestBlob: Blob | null = null;
   let bestDiff = Infinity;
+  let totalEncodes = 0;
+  const MAX_ENCODES = 25;
 
-  while (w >= 100 && h >= 100) {
-    let lo = 0.05;
-    let hi = 1.0;
-    let iterations = 0;
-    
-    while (iterations < 10 && lo <= hi) {
-      let quality = (lo + hi) / 2;
-      
-      const canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('Canvas context not available');
-      
-      ctx.drawImage(img, 0, 0, w, h);
-      
-      result = await new Promise<Blob>((resolve, reject) => {
-        canvas.toBlob(
-          (blob) => {
-            if (blob) resolve(blob);
-            else reject(new Error('Canvas toBlob failed'));
-          },
-          mimeType,
-          quality
-        );
-      });
-      
-      onProgress?.(Math.min(90, (scale * 50) + (iterations * 5)));
-
-      const diff = Math.abs(result.size - targetBytes);
-      if (diff < bestDiff && result.size <= targetBytes) {
-        bestDiff = diff;
-        bestBlob = result;
-      }
-
-      if (result.size > targetBytes) {
-        hi = quality - 0.05;
-      } else if (result.size < minBytes) {
-        lo = quality + 0.05;
-      } else {
-        onProgress?.(100);
-        return result;
-      }
-      
-      iterations++;
-    }
-    
-    if (result && result.size <= targetBytes && result.size >= minBytes) {
-      break;
-    }
-
+  // Helper to encode canvas to blob
+  const encodeCanvas = async (width: number, height: number, quality: number): Promise<Blob> => {
     const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d')!;
-    ctx.drawImage(img, 0, 0, w, h);
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Canvas context not available');
+
+    // Fill white background for JPEGs to prevent black transparency
+    if ((mimeType === 'image/jpeg' || options?.fillAlpha) && file.type === 'image/png') {
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
+    }
     
-    const lowestBlob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob!), mimeType, 0.05);
+    ctx.drawImage(img, 0, 0, width, height);
+    
+    return new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Canvas toBlob failed'));
+        },
+        mimeType,
+        quality
+      );
     });
+  };
+
+  while (w >= 64 && h >= 64 && totalEncodes < MAX_ENCODES) {
+    let lo = 0.05;
+    let hi = 0.98;
+    let localBestBlob: Blob | null = null;
+
+    // First check if even the lowest quality at this size is too big
+    const lowestBlob = await encodeCanvas(w, h, 0.05);
+    totalEncodes++;
     
-    if (lowestBlob.size <= targetBytes) {
+    if (lowestBlob.size > targetBytes) {
+      // Even lowest quality is too big, must reduce dimensions
+      w = Math.max(64, Math.floor(w * 0.9));
+      h = Math.max(64, Math.floor(h * 0.9));
+      onProgress?.(Math.min(90, (totalEncodes / MAX_ENCODES) * 100));
+      continue;
+    }
+
+    // Binary search for best quality at this dimension
+    while (lo <= hi && totalEncodes < MAX_ENCODES) {
+      let quality = (lo + hi) / 2;
+      const result = await encodeCanvas(w, h, quality);
+      totalEncodes++;
+      
+      onProgress?.(Math.min(95, (totalEncodes / MAX_ENCODES) * 100));
+
+      if (result.size <= targetBytes) {
+        // Valid candidate
+        const diff = targetBytes - result.size;
+        if (diff < bestDiff) {
+          bestDiff = diff;
+          bestBlob = result;
+        }
+        localBestBlob = result;
+        
+        // If we are within 92-100% of target, we found the sweet spot
+        if (result.size >= targetBytes * 0.92) {
+          onProgress?.(100);
+          return result;
+        }
+        
+        lo = quality + 0.02; // Try higher quality
+      } else {
+        hi = quality - 0.02; // Try lower quality
+      }
+    }
+
+    // If we completed binary search at this dimension and found a valid blob, return it.
+    // It's the best possible at this dimension without exceeding target.
+    if (localBestBlob && localBestBlob.size <= targetBytes) {
+      bestBlob = localBestBlob;
       break;
     }
     
-    scale *= 0.9;
-    w = Math.round(img.width * scale);
-    h = Math.round(img.height * scale);
+    // Fallback dimension reduction if binary search failed completely
+    w = Math.max(64, Math.floor(w * 0.9));
+    h = Math.max(64, Math.floor(h * 0.9));
   }
 
   onProgress?.(100);
-  return bestBlob || result || file;
+  // Return the best blob found. If none found, return original file (should only happen if file is < 64px)
+  return bestBlob || file as Blob;
 }
 
 async function increaseImageSize(
-  originalFile: Blob,
+  originalFile: File | Blob,
   img: ImageBitmap,
   targetBytes: number,
   mimeType: string,
@@ -124,6 +145,10 @@ async function increaseImageSize(
     canvas.width = img.width;
     canvas.height = img.height;
     const ctx = canvas.getContext('2d')!;
+    if ((mimeType === 'image/jpeg') && originalFile.type === 'image/png') {
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
     ctx.drawImage(img, 0, 0);
     
     const hqBlob = await new Promise<Blob>((resolve) => {
@@ -146,7 +171,7 @@ async function increaseImageSize(
   const bytesToAdd = targetBytes - currentSize;
   if (bytesToAdd <= 0) {
     onProgress?.(100);
-    return originalFile;
+    return originalFile as Blob;
   }
   
   const padding = new Uint8Array(bytesToAdd);

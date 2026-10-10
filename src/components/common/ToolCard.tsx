@@ -59,7 +59,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, compact = false, onFav
           )}
         </div>
 
-        <Link to={`/${tool.slug}`} className="flex-grow flex flex-col outline-none">
+        <Link to={`/tool/${tool.slug}`} className="flex-grow flex flex-col outline-none">
           <h3 className="font-heading font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
             {tool.name}
           </h3>
