@@ -135,7 +135,7 @@ async function loadProcessor(type: string) {
     case 'image-to-pdf': return (await import('../processors/imageToPdf')).imageToPdf;
     case 'color-picker': return (await import('../processors/colorPicker')).pickColors;
     case 'metadata': return (await import('../processors/metadata')).readMetadata;
-    default: throw new Error(`Unknown processor: ${type}`);
+    default: return (await import('../processors/generic')).genericProcessor;
   }
 }
 
