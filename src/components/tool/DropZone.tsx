@@ -5,6 +5,7 @@ import { UploadCloud, X, FileImage } from 'lucide-react';
 interface DropZoneProps {
   onFilesSelected: (files: File[]) => void;
   acceptedFormats?: string[];
+  accept?: string;
   maxFileSize?: number;
   multiFile?: boolean;
   disabled?: boolean;
@@ -12,7 +13,8 @@ interface DropZoneProps {
 
 export const DropZone: React.FC<DropZoneProps> = ({
   onFilesSelected,
-  acceptedFormats = ['image/jpeg', 'image/png', 'image/webp'],
+  acceptedFormats,
+  accept,
   maxFileSize = 50 * 1024 * 1024,
   multiFile = false,
   disabled = false,
@@ -30,10 +32,17 @@ export const DropZone: React.FC<DropZoneProps> = ({
     setIsDragActive(false);
   }, []);
 
+  const finalAcceptedFormats = accept ? accept.split(',') : (acceptedFormats || ['image/jpeg', 'image/png', 'image/webp']);
+
   const processFiles = useCallback((files: FileList | File[]) => {
     const validFiles = Array.from(files).filter(
-      (file) =>
-        acceptedFormats.includes(file.type) && file.size <= maxFileSize
+      (file) => {
+        // Simple accept matching
+        return finalAcceptedFormats.some(f => 
+          f === file.type || 
+          (f.endsWith('/*') && file.type.startsWith(f.replace('/*', '')))
+        ) && file.size <= maxFileSize;
+      }
     );
     
     if (validFiles.length > 0) {
@@ -41,7 +50,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
       setSelectedFiles((prev) => multiFile ? [...prev, ...newFiles] : newFiles);
       onFilesSelected(newFiles);
     }
-  }, [acceptedFormats, maxFileSize, multiFile, onFilesSelected]);
+  }, [finalAcceptedFormats, maxFileSize, multiFile, onFilesSelected]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -76,7 +85,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
           type="file"
           className="hidden"
           multiple={multiFile}
-          accept={acceptedFormats.join(',')}
+          accept={finalAcceptedFormats.join(',')}
           onChange={handleChange}
           disabled={disabled}
         />
@@ -99,10 +108,10 @@ export const DropZone: React.FC<DropZoneProps> = ({
           </div>
 
           <p className="mb-2 text-xl font-heading font-semibold text-slate-800 dark:text-slate-100 md:block hidden">
-            Drag & drop your images here
+            Drag & drop your files here
           </p>
           <p className="mb-2 text-xl font-heading font-semibold text-slate-800 dark:text-slate-100 md:hidden">
-            Tap to select images
+            Tap to select files
           </p>
           
           <div className="flex items-center gap-4 my-3 md:flex hidden w-full max-w-xs">
@@ -112,11 +121,11 @@ export const DropZone: React.FC<DropZoneProps> = ({
           </div>
 
           <div className="px-6 py-2.5 bg-primary-600 text-white rounded-xl font-medium shadow-sm hover:bg-primary-700 transition-colors md:block hidden">
-            Select Images
+            Select Files
           </div>
 
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-            Supports {acceptedFormats.map(f => f.split('/')[1].toUpperCase()).join(', ')} up to {Math.round(maxFileSize / 1024 / 1024)}MB
+            Supports {finalAcceptedFormats.map(f => f.split('/')[1]?.toUpperCase() || f).join(', ')} up to {Math.round(maxFileSize / 1024 / 1024)}MB
           </p>
         </motion.div>
       </label>
