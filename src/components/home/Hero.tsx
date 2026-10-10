@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Search, Zap, Shield, Image as ImageIcon, ZapOff, Fingerprint, Chrome } from 'lucide-react';
+import { AutocompleteSearch } from './AutocompleteSearch';
 
 export const Hero: React.FC = () => {
   const container = {
@@ -49,24 +50,8 @@ export const Hero: React.FC = () => {
               The ultimate all-in-one image toolkit right in your browser. No signups, no watermarks, completely free. Your files never leave your device.
             </motion.p>
 
-            <motion.div variants={item} className="w-full max-w-md relative group mb-8">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
-                <Search size={20} />
-              </div>
-              <input
-                type="text"
-                className="block w-full pl-12 pr-16 py-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm focus:ring-2 focus:ring-primary focus:border-primary text-slate-900 dark:text-white placeholder:text-slate-400 transition-all font-body text-lg"
-                placeholder="Search tools... (e.g. compress)"
-                readOnly
-                onClick={() => {
-                  window.dispatchEvent(new Event('open-command-palette'));
-                }}
-              />
-              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                  <span className="text-sm">Ctrl</span> K
-                </kbd>
-              </div>
+            <motion.div variants={item} className="w-full relative z-50 mb-8">
+              <AutocompleteSearch />
             </motion.div>
 
             <motion.div variants={item} className="flex flex-wrap gap-2 justify-center lg:justify-start">

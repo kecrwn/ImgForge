@@ -100,7 +100,7 @@ export default function Navbar() {
                         transition={{ duration: 0.15 }}
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[400px]"
                       >
-                        <div className="glass-strong rounded-2xl shadow-xl p-4 grid grid-cols-2 gap-2 border border-slate-200 dark:border-slate-700">
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-4 grid grid-cols-2 gap-2 border border-slate-200 dark:border-slate-700">
                           {(() => {
                             const categoryTools = tools.filter((t: any) => link.categories?.includes(t.category)).slice(0, 8);
                             return categoryTools.map((tool: any) => (

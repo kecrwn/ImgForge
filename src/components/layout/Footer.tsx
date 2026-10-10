@@ -5,21 +5,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const FOOTER_LINKS = {
   'Image Tools': [
-    { name: 'Compress Image', path: '/compress' },
-    { name: 'Resize Image', path: '/resize' },
-    { name: 'Crop Image', path: '/crop' },
-    { name: 'Convert to WebP', path: '/convert/webp' },
-    { name: 'Image Upscaler', path: '/upscale' },
+    { name: 'Compress Image', path: '/tool/compress-image' },
+    { name: 'Resize Image', path: '/tool/resize-image-by-pixel' },
+    { name: 'Crop Image', path: '/tool/freehand-crop' },
+    { name: 'Convert to JPG', path: '/tool/webp-to-jpg' },
+    { name: 'Round Corners', path: '/tool/round-corners' },
   ],
   'PDF Tools': [
-    { name: 'Images to PDF', path: '/images-to-pdf' },
-    { name: 'PDF to Images', path: '/pdf-to-images' },
-    { name: 'Compress PDF', path: '/compress-pdf' },
+    { name: 'Images to PDF', path: '/tool/images-to-pdf' },
+    { name: 'PDF to Images', path: '/tool/pdf-to-images' },
+    { name: 'Compress PDF', path: '/tool/compress-pdf' },
   ],
   'GIF Tools': [
-    { name: 'Video to GIF', path: '/video-to-gif' },
-    { name: 'GIF to MP4', path: '/gif-to-mp4' },
-    { name: 'Compress GIF', path: '/compress-gif' },
+    { name: 'Video to GIF', path: '/tool/video-to-gif' },
+    { name: 'GIF Maker', path: '/tool/gif-maker' },
+    { name: 'Compress GIF', path: '/tool/compress-gif' },
   ],
   'Legal': [
     { name: 'About Us', path: '/about' },

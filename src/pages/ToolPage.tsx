@@ -9,6 +9,13 @@ import { useFileProcessor } from '../hooks/useFileProcessor';
 import { Helmet } from 'react-helmet-async';
 import { ChevronRight } from 'lucide-react';
 
+import { GenericWorkspace } from '../components/tool/GenericWorkspace';
+import { CropWorkspace } from '../components/tool/CropWorkspace';
+import { CompressWorkspace } from '../components/tool/CompressWorkspace';
+import { ImageToPdfWorkspace } from '../components/tool/ImageToPdfWorkspace';
+import { ColorPickerWorkspace } from '../components/tool/ColorPickerWorkspace';
+import { MetadataWorkspace } from '../components/tool/MetadataWorkspace';
+
 export default function ToolPage() {
   const { slug } = useParams<{ slug: string }>();
   const tool = tools.find((t) => t.slug === slug);
@@ -22,17 +29,31 @@ export default function ToolPage() {
     );
   }
 
-  const {
-    state,
-    files,
-    results,
-    progress,
-    options,
-    setOptions,
-    handleFilesSelected,
-    processFiles,
-    reset,
-  } = useFileProcessor(tool);
+  // Dynamic Router
+  const renderWorkspace = () => {
+    if (tool.processor === 'crop') {
+      return <CropWorkspace tool={tool} />;
+    }
+    
+    if (tool.processor === 'compress') {
+      return <CompressWorkspace tool={tool} />;
+    }
+    
+    if (tool.processor === 'image-to-pdf') {
+      return <ImageToPdfWorkspace tool={tool} />;
+    }
+    
+    if (tool.processor === 'color-picker') {
+      return <ColorPickerWorkspace tool={tool} />;
+    }
+    
+    if (tool.processor === 'metadata') {
+      return <MetadataWorkspace tool={tool} />;
+    }
+    
+    // Fallback for everything else
+    return <GenericWorkspace tool={tool} />;
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
@@ -46,7 +67,7 @@ export default function ToolPage() {
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-8">
           <Link to="/" className="hover:text-primary-600">Home</Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="capitalize">{tool.category}</span>
+          <span className="capitalize">{tool.category.replace('-', ' ')}</span>
           <ChevronRight className="w-4 h-4" />
           <span className="text-slate-800 dark:text-slate-200 font-medium">{tool.name}</span>
         </div>
@@ -60,51 +81,8 @@ export default function ToolPage() {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800 p-6 md:p-10 relative overflow-hidden min-h-[500px]">
-          {state === 'processing' && <ProcessingState progress={progress} />}
-          
-          {state === 'idle' && (
-            <DropZone onFilesSelected={handleFilesSelected} />
-          )}
-
-          {state === 'uploaded' && (
-            <div className="flex flex-col md:flex-row gap-10 h-full">
-              <div className="flex-1 bg-slate-50 dark:bg-slate-950 rounded-2xl flex items-center justify-center p-4 border border-slate-200 dark:border-slate-800">
-                {files[0] && (
-                  <img
-                    src={URL.createObjectURL(files[0])}
-                    alt="Preview"
-                    className="max-w-full max-h-[400px] object-contain rounded-lg"
-                  />
-                )}
-              </div>
-              <div className="w-full md:w-80 flex flex-col gap-6">
-                <OptionsPanel
-                  options={tool.options}
-                  values={options}
-                  onChange={(key, val) => setOptions(prev => ({ ...prev, [key]: val }))}
-                />
-                <button
-                  onClick={processFiles}
-                  className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold shadow-md shadow-primary-500/20 transition-all active:scale-[0.98]"
-                >
-                  Process Image
-                </button>
-              </div>
-            </div>
-          )}
-
-          {state === 'done' && (
-            <ResultView results={results} onReset={reset} />
-          )}
-          
-          {state === 'error' && (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <div className="text-red-500 text-xl mb-4">An error occurred during processing.</div>
-              <button onClick={reset} className="px-6 py-2 bg-slate-200 dark:bg-slate-700 rounded-lg">Try Again</button>
-            </div>
-          )}
-        </div>
+        {/* Dynamic Workspace Container */}
+        {renderWorkspace()}
       </div>
     </div>
   );
