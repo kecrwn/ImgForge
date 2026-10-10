@@ -5,6 +5,8 @@ export async function compressImage(
   file: File,
   options: {
     targetSizeKB?: number;
+    targetKB?: number;
+    targetMB?: number;
     quality?: number;
     maxWidth?: number;
     maxHeight?: number;
@@ -13,10 +15,12 @@ export async function compressImage(
   },
   onProgress?: (progress: number) => void
 ): Promise<Blob> {
-  if (options.targetSizeKB) {
+  const finalTargetKB = options.targetSizeKB || options.targetKB || (options.targetMB ? options.targetMB * 1024 : undefined);
+
+  if (finalTargetKB) {
     return compressToExactSize(
       file, 
-      options.targetSizeKB, 
+      finalTargetKB, 
       { format: options.format, increaseMode: options.increaseMode }, 
       onProgress
     );
@@ -25,6 +29,7 @@ export async function compressImage(
   const compressed = await imageCompression(file, {
     maxSizeMB: (options.targetSizeKB || 500) / 1024,
     maxWidthOrHeight: options.maxWidth || options.maxHeight || undefined,
+    initialQuality: options.quality ? options.quality / 100 : undefined,
     useWebWorker: true,
     onProgress: onProgress,
     fileType: options.format ? `image/${options.format}` : undefined,

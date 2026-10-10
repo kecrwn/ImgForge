@@ -12,9 +12,14 @@ export const OptionsPanel: React.FC<OptionsPanelProps> = ({ options, values, onC
     <div className="flex flex-col gap-6 w-full max-w-md mx-auto">
       {options.map((opt) => (
         <div key={opt.id} className="flex flex-col gap-2">
-          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-            {opt.label}
-          </label>
+          <div>
+            <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+              {opt.label}
+            </label>
+            {opt.description && (
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{opt.description}</p>
+            )}
+          </div>
           
           {opt.type === 'number' && (
             <div className="flex items-center gap-2">
