@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sun, Moon, Monitor, Menu, X, Globe, ChevronDown, Flame, FileImage, FileText, Settings, Grid, History, ChevronUp } from 'lucide-react';
 import * as Icons from 'lucide-react';
-import { TOOLS } from '../../config/tools';
+import { tools } from '../../config/tools';
 import { useTheme } from '../../hooks/useTheme';
 import { HistoryDrawer } from '../common/HistoryDrawer';
 
@@ -102,8 +102,8 @@ export default function Navbar() {
                       >
                         <div className="glass-strong rounded-2xl shadow-xl p-4 grid grid-cols-2 gap-2 border border-slate-200 dark:border-slate-700">
                           {(() => {
-                            const categoryTools = TOOLS.filter(t => link.categories?.includes(t.category)).slice(0, 8);
-                            return categoryTools.map(tool => (
+                            const categoryTools = tools.filter((t: any) => link.categories?.includes(t.category)).slice(0, 8);
+                            return categoryTools.map((tool: any) => (
                               <Link key={tool.slug} to={`/tool/${tool.slug}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
                                 <div className="p-2 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform" style={{ color: tool.accentColor }}>
                                   <DynamicIcon name={tool.icon} className="w-5 h-5" />
@@ -232,7 +232,7 @@ export default function Navbar() {
                               >
                                 View all {link.name} tools
                               </Link>
-                              {TOOLS.filter(t => link.categories?.includes(t.category)).slice(0, 5).map(tool => (
+                              {tools.filter((t: any) => link.categories?.includes(t.category)).slice(0, 5).map((tool: any) => (
                                 <Link
                                   key={tool.slug}
                                   to={`/tool/${tool.slug}`}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { TOOLS } from '../config/tools';
+import { tools } from '../config/tools';
 import { categories } from '../config/categories';
 import { CategoryId } from '../types';
 import * as Icons from 'lucide-react';
@@ -57,7 +57,7 @@ export default function CategoryPage() {
   }
 
   const categoryTools = useMemo(() => {
-    return TOOLS.filter(tool => resolvedCategoryIds?.includes(tool.category));
+    return tools.filter((tool: any) => resolvedCategoryIds?.includes(tool.category));
   }, [resolvedCategoryIds]);
 
   return (
@@ -72,7 +72,7 @@ export default function CategoryPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {categoryTools.map(tool => (
+        {categoryTools.map((tool: any) => (
           <Link
             key={tool.id}
             to={`/tool/${tool.slug}`}

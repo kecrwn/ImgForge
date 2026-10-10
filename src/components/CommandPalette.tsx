@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { Search, X, History, Flame } from 'lucide-react';
 import * as Icons from 'lucide-react';
-import { TOOLS } from '../config/tools';
+import { tools } from '../config/tools';
 import { ToolConfig } from '../types';
 
 const DynamicIcon = ({ name, className }: { name: string, className?: string }) => {
@@ -12,7 +12,7 @@ const DynamicIcon = ({ name, className }: { name: string, className?: string }) 
   return <Icon className={className} />;
 };
 
-const fuse = new Fuse(TOOLS, {
+const fuse = new Fuse(tools, {
   keys: [
     { name: 'name', weight: 2 },
     { name: 'description', weight: 1 },
@@ -59,7 +59,7 @@ export default function CommandPalette() {
       if (stored) {
         try {
           const slugs = JSON.parse(stored);
-          const recent = slugs.map((slug: string) => TOOLS.find(t => t.slug === slug)).filter(Boolean);
+          const recent = slugs.map((slug: string) => tools.find(t => t.slug === slug)).filter(Boolean);
           setRecentSearches(recent);
         } catch (e) {}
       }
@@ -87,7 +87,7 @@ export default function CommandPalette() {
   };
 
   const searchResults = query ? fuse.search(query).map(r => r.item).slice(0, 8) : [];
-  const popularTools = TOOLS.slice(0, 4); // Just take first 4 as popular for now
+  const popularTools = tools.slice(0, 4); // Just take first 4 as popular for now
 
   return (
     <AnimatePresence>
@@ -135,7 +135,7 @@ export default function CommandPalette() {
                 {query.length > 0 ? (
                   searchResults.length > 0 ? (
                     <div className="flex flex-col gap-1">
-                      {searchResults.map((tool) => (
+                      {searchResults.map((tool: any) => (
                         <button
                           key={tool.id}
                           onClick={() => handleSelect(tool)}
@@ -171,7 +171,7 @@ export default function CommandPalette() {
                           <History className="w-3.5 h-3.5" /> Recent Searches
                         </h3>
                         <div className="flex flex-col gap-1">
-                          {recentSearches.map((tool) => (
+                          {recentSearches.map((tool: any) => (
                             <button
                               key={`recent-${tool.id}`}
                               onClick={() => handleSelect(tool)}
@@ -190,7 +190,7 @@ export default function CommandPalette() {
                         <Flame className="w-3.5 h-3.5" /> Popular Tools
                       </h3>
                       <div className="flex flex-col gap-1">
-                        {popularTools.map((tool) => (
+                        {popularTools.map((tool: any) => (
                           <button
                             key={`popular-${tool.id}`}
                             onClick={() => handleSelect(tool)}

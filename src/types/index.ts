@@ -55,6 +55,7 @@ export interface OptionSchema {
   chips?: { label: string; value: number }[];
   unit?: string;
   description?: string;
+  tags?: string[];
 }
 
 export interface ToolConfig {
